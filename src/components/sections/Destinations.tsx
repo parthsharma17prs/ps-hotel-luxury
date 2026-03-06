@@ -77,9 +77,11 @@ export default function Destinations() {
                     {destinations.map((dest, i) => (
                         <StaggerChild key={dest.name}>
                             <motion.div
-                                whileHover={{ y: -10 }}
-                                transition={{ duration: 0.4, ease: [0.76, 0, 0.24, 1] }}
-                                className={`group relative bg-cream border border-foreground/10 overflow-hidden flex flex-col h-full ${i === 3 || i === 4 ? "md:col-span-1 lg:max-w-md mx-auto" : ""}`}
+                                whileHover={{ y: -5 }}
+                                transition={{ duration: 0.2 }}
+                                className={`group relative bg-cream border-2 border-foreground overflow-hidden neo-shadow flex flex-col h-full 
+                                ${i % 2 === 0 ? "arch-card" : "arch-card-inverted"} 
+                                ${i === 3 || i === 4 ? "md:col-span-1 lg:max-w-md mx-auto" : ""}`}
                             >
                                 {/* Image Container */}
                                 <div className="relative h-64 overflow-hidden">
@@ -129,7 +131,7 @@ export default function Destinations() {
                                         <motion.button
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
-                                            className="text-xs tracking-widest uppercase text-gold hover:text-turquoise transition-colors"
+                                            className="text-xs font-bold tracking-widest uppercase text-turquoise hover:text-gold transition-colors"
                                         >
                                             View →
                                         </motion.button>

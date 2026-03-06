@@ -39,20 +39,17 @@ export default function Header() {
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-                className="fixed top-0 left-0 w-full z-50 transition-all duration-700 bg-transparent"
+                className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl z-50 transition-all duration-700 bg-background/60 backdrop-blur-md rounded-[50px] border-2 border-white/10 neo-shadow"
             >
-                <div className="flex items-center justify-between px-6 md:px-12 lg:px-16 py-4 md:py-5">
+                <div className="flex items-center justify-between px-6 md:px-8 py-3">
                     {/* Logo */}
                     <Link href="/" className="relative z-50">
                         <motion.div
                             whileHover={{ scale: 1.02 }}
                             className="flex flex-col items-start"
                         >
-                            <span className="font-serif text-2xl md:text-3xl tracking-cinematic transition-colors duration-500 text-white">
-                                PRS HOTEL
-                            </span>
-                            <span className="text-[9px] tracking-ultra uppercase transition-colors duration-500 text-turquoise">
-                                Luxury Redefined
+                            <span className="font-sans font-extrabold text-xl md:text-2xl tracking-tighter transition-colors duration-500 text-white">
+                                PRS Hotel
                             </span>
                         </motion.div>
                     </Link>
@@ -68,10 +65,9 @@ export default function Header() {
                             >
                                 <Link
                                     href={link.href}
-                                    className="text-xs tracking-cinematic uppercase font-light hover:text-turquoise transition-colors duration-300 relative group text-white/90"
+                                    className="text-sm font-semibold tracking-wide hover:text-turquoise transition-colors duration-300 relative group text-white/90"
                                 >
                                     {link.label}
-                                    <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-turquoise group-hover:w-full transition-all duration-500" />
                                 </Link>
                             </motion.div>
                         ))}
@@ -87,7 +83,7 @@ export default function Header() {
                         >
                             <Link
                                 href="#booking"
-                                className="text-xs tracking-cinematic uppercase px-6 py-3 border transition-all duration-500 border-white/50 text-white hover:bg-white hover:text-black"
+                                className="text-sm font-bold tracking-widest uppercase px-6 py-2.5 bg-turquoise text-white rounded-[50px] hover:scale-105 transition-transform duration-300"
                             >
                                 Book Now
                             </Link>

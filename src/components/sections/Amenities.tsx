@@ -76,12 +76,9 @@ export default function Amenities() {
                     {amenities.map((amenity) => (
                         <StaggerChild key={amenity.title}>
                             <motion.div
-                                whileHover={{
-                                    y: -8,
-                                    boxShadow: "0 20px 40px rgba(31, 180, 180, 0.08)",
-                                }}
-                                transition={{ duration: 0.4 }}
-                                className="group bg-white p-8 relative overflow-hidden"
+                                whileHover={{ y: -5 }}
+                                transition={{ duration: 0.2 }}
+                                className={`group bg-cream border-2 border-slate-700/50 p-8 relative overflow-hidden neo-shadow ${amenity.title === "Luxury Spa" || amenity.title === "Sports & Recreation" ? "arch-card" : "rounded-3xl"}`}
                             >
                                 {/* Hover accent */}
                                 <motion.div className="absolute bottom-0 left-0 w-full h-0 bg-gradient-to-t from-turquoise/5 to-transparent group-hover:h-full transition-all duration-700" />
@@ -96,9 +93,7 @@ export default function Amenities() {
                                     </p>
                                 </div>
 
-                                {/* Corner line */}
-                                <div className="absolute top-0 right-0 w-0 h-[2px] bg-turquoise group-hover:w-12 transition-all duration-500 delay-200" />
-                                <div className="absolute top-0 right-0 w-[2px] h-0 bg-turquoise group-hover:h-12 transition-all duration-500 delay-200" />
+                                <div className="absolute top-0 right-0 w-0 h-[4px] bg-turquoise group-hover:w-full transition-all duration-500 delay-100" />
                             </motion.div>
                         </StaggerChild>
                     ))}
