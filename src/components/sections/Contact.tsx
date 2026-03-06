@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import TextScrollReveal from "../ui/TextScrollReveal";
 import { FadeIn } from "../ui/AnimationWrappers";
+import { MapPin, Mail, Phone } from "lucide-react";
 
 export default function Contact() {
     return (
@@ -30,12 +31,12 @@ export default function Contact() {
                             whileHover={{ y: -5, borderColor: "rgba(31,180,180,0.3)" }}
                             className="text-center p-10 border border-white/10"
                         >
-                            <span className="text-3xl mb-4 block">📍</span>
+                            <div className="mb-4 flex justify-center text-turquoise"><MapPin className="w-8 h-8" /></div>
                             <h3 className="font-serif text-xl tracking-wider mb-3">
                                 Visit Us
                             </h3>
                             <p className="text-white/40 text-sm leading-relaxed">
-                                PS Hotel Headquarters
+                                PRS Hotel Headquarters
                                 <br />
                                 Mumbai, Maharashtra
                                 <br />
@@ -49,16 +50,16 @@ export default function Contact() {
                             whileHover={{ y: -5, borderColor: "rgba(31,180,180,0.3)" }}
                             className="text-center p-10 border border-white/10"
                         >
-                            <span className="text-3xl mb-4 block">📧</span>
+                            <div className="mb-4 flex justify-center text-turquoise"><Mail className="w-8 h-8" /></div>
                             <h3 className="font-serif text-xl tracking-wider mb-3">
                                 Email Us
                             </h3>
                             <p className="text-white/40 text-sm leading-relaxed">
-                                info@pshotel.com
+                                info@prshotel.com
                                 <br />
-                                careers@pshotel.com
+                                careers@prshotel.com
                                 <br />
-                                press@pshotel.com
+                                press@prshotel.com
                             </p>
                         </motion.div>
                     </FadeIn>
@@ -68,7 +69,7 @@ export default function Contact() {
                             whileHover={{ y: -5, borderColor: "rgba(31,180,180,0.3)" }}
                             className="text-center p-10 border border-white/10"
                         >
-                            <span className="text-3xl mb-4 block">📱</span>
+                            <div className="mb-4 flex justify-center text-turquoise"><Phone className="w-8 h-8" /></div>
                             <h3 className="font-serif text-xl tracking-wider mb-3">
                                 Call Us
                             </h3>

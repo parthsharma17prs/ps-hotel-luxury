@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import TextScrollReveal from "../ui/TextScrollReveal";
 import { FadeIn } from "../ui/AnimationWrappers";
+import { Mail, Phone, BellRing, Check } from "lucide-react";
 
 export default function Booking() {
     const [formData, setFormData] = useState({
@@ -61,20 +62,20 @@ export default function Booking() {
                         <FadeIn delay={0.3}>
                             <div className="space-y-6">
                                 <div className="flex items-start gap-4">
-                                    <div className="w-10 h-10 border border-turquoise/30 flex items-center justify-center text-turquoise text-sm flex-shrink-0">
-                                        ✉
+                                    <div className="w-10 h-10 border border-turquoise/30 flex items-center justify-center text-turquoise flex-shrink-0">
+                                        <Mail className="w-5 h-5" />
                                     </div>
                                     <div>
                                         <p className="text-xs tracking-cinematic uppercase text-foreground/40 mb-1">
                                             Email
                                         </p>
-                                        <p className="text-sm font-light">reservations@pshotel.com</p>
+                                        <p className="text-sm font-light">reservations@prshotel.com</p>
                                     </div>
                                 </div>
 
                                 <div className="flex items-start gap-4">
-                                    <div className="w-10 h-10 border border-turquoise/30 flex items-center justify-center text-turquoise text-sm flex-shrink-0">
-                                        ☎
+                                    <div className="w-10 h-10 border border-turquoise/30 flex items-center justify-center text-turquoise flex-shrink-0">
+                                        <Phone className="w-5 h-5" />
                                     </div>
                                     <div>
                                         <p className="text-xs tracking-cinematic uppercase text-foreground/40 mb-1">
@@ -85,8 +86,8 @@ export default function Booking() {
                                 </div>
 
                                 <div className="flex items-start gap-4">
-                                    <div className="w-10 h-10 border border-turquoise/30 flex items-center justify-center text-turquoise text-sm flex-shrink-0">
-                                        ◉
+                                    <div className="w-10 h-10 border border-turquoise/30 flex items-center justify-center text-turquoise flex-shrink-0">
+                                        <BellRing className="w-5 h-5" />
                                     </div>
                                     <div>
                                         <p className="text-xs tracking-cinematic uppercase text-foreground/40 mb-1">
@@ -197,7 +198,7 @@ export default function Booking() {
                                             exit={{ opacity: 0 }}
                                             className="flex items-center gap-3 text-turquoise"
                                         >
-                                            <span className="text-lg">✓</span>
+                                            <Check className="w-6 h-6" />
                                             <span className="text-sm tracking-widest uppercase">
                                                 Thank you! We will be in touch shortly.
                                             </span>

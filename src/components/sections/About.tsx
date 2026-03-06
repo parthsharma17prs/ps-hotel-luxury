@@ -34,7 +34,7 @@ export default function About() {
                     {/* Left - Text */}
                     <div className="space-y-8">
                         <FadeIn>
-                            <p className="subtitle">About PS Hotel</p>
+                            <p className="subtitle">About PRS Hotel</p>
                         </FadeIn>
 
                         <TextScrollReveal
@@ -44,7 +44,7 @@ export default function About() {
 
                         <FadeIn delay={0.2}>
                             <p className="body-text">
-                                PS Hotel is more than a destination — it is an experience meticulously
+                                PRS Hotel is more than a destination — it is an experience meticulously
                                 curated for the discerning traveller. Born from a vision to redefine
                                 hospitality, we blend the grandeur of timeless architecture with the
                                 warmth of personalized service.
@@ -55,7 +55,7 @@ export default function About() {
                             <p className="body-text">
                                 Each property in our portfolio is a masterpiece, chosen for its unique
                                 character and breathtaking surroundings. From sun-kissed coastlines to
-                                misty mountain retreats, every PS Hotel promises an unforgettable stay
+                                misty mountain retreats, every PRS Hotel promises an unforgettable stay
                                 that transcends the ordinary.
                             </p>
                         </FadeIn>

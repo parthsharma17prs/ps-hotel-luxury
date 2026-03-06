@@ -39,7 +39,7 @@ export default function Location() {
                         />
                         <FadeIn delay={0.2}>
                             <p className="text-white/40 font-light leading-relaxed max-w-lg">
-                                Each PS Hotel property is strategically positioned in the most
+                                Each PRS Hotel property is strategically positioned in the most
                                 desirable destinations on earth. Whether you seek beachside
                                 tranquility or mountain adventure, we are there.
                             </p>

@@ -1,47 +1,48 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Waves, Sparkles, Utensils, Dumbbell, Trophy, Martini, Baby, CarFront } from "lucide-react";
 import TextScrollReveal from "../ui/TextScrollReveal";
 import { FadeIn, StaggerContainer, StaggerChild } from "../ui/AnimationWrappers";
 
 const amenities = [
     {
-        icon: "🏊",
+        icon: <Waves className="w-8 h-8 text-gold" />,
         title: "Infinity Pool",
         description: "Temperature-controlled infinity pools with panoramic views that stretch to the horizon.",
     },
     {
-        icon: "🧖",
+        icon: <Sparkles className="w-8 h-8 text-gold" />,
         title: "Luxury Spa",
         description: "World-class spa treatments using organic, locally-sourced ingredients and ancient techniques.",
     },
     {
-        icon: "🍽️",
+        icon: <Utensils className="w-8 h-8 text-gold" />,
         title: "Fine Dining",
         description: "Michelin-starred restaurants helmed by award-winning chefs crafting unforgettable gastronomic journeys.",
     },
     {
-        icon: "🏋️",
+        icon: <Dumbbell className="w-8 h-8 text-gold" />,
         title: "Fitness Centre",
         description: "State-of-the-art fitness facilities with personal trainers and yoga sanctuaries.",
     },
     {
-        icon: "🎾",
+        icon: <Trophy className="w-8 h-8 text-gold" />,
         title: "Sports & Recreation",
         description: "Tennis courts, golf courses, and water sports for the adventurous spirit.",
     },
     {
-        icon: "🍸",
+        icon: <Martini className="w-8 h-8 text-gold" />,
         title: "Rooftop Lounge",
         description: "Signature cocktails and curated wine lists served against breathtaking skyline vistas.",
     },
     {
-        icon: "👶",
+        icon: <Baby className="w-8 h-8 text-gold" />,
         title: "Kids Club",
         description: "Creative programmes and supervised activities ensuring memorable family holidays.",
     },
     {
-        icon: "🚗",
+        icon: <CarFront className="w-8 h-8 text-gold" />,
         title: "Chauffeur Service",
         description: "Complimentary luxury transfers and bespoke excursion arrangements.",
     },
@@ -65,7 +66,7 @@ export default function Amenities() {
                     />
                     <FadeIn delay={0.2}>
                         <p className="body-text max-w-2xl mx-auto mt-6">
-                            Every amenity at PS Hotel has been thoughtfully designed to elevate your
+                            Every amenity at PRS Hotel has been thoughtfully designed to elevate your
                             stay from exceptional to extraordinary.
                         </p>
                     </FadeIn>
@@ -86,7 +87,7 @@ export default function Amenities() {
                                 <motion.div className="absolute bottom-0 left-0 w-full h-0 bg-gradient-to-t from-turquoise/5 to-transparent group-hover:h-full transition-all duration-700" />
 
                                 <div className="relative z-10">
-                                    <span className="text-3xl mb-6 block">{amenity.icon}</span>
+                                    <div className="mb-6 block">{amenity.icon}</div>
                                     <h3 className="font-serif text-xl tracking-wider mb-3 group-hover:text-turquoise transition-colors duration-500">
                                         {amenity.title}
                                     </h3>

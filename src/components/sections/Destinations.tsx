@@ -39,7 +39,7 @@ const destinations = [
         price: "₹85,000",
         perNight: "per night",
         description: "Treehouse suites woven into the rainforest canopy. Wake to the symphony of exotic birds.",
-        image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        image: "https://images.unsplash.com/photo-1596395819057-e37f55a85045?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         accent: "var(--turquoise)",
     },
     {
@@ -48,7 +48,7 @@ const destinations = [
         price: "₹1,50,000",
         perNight: "per night",
         description: "Penthouse suites in the heart of Tokyo. Where ancient tradition meets futuristic luxury.",
-        image: "https://images.unsplash.com/photo-1503899036067-047b973c17fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        image: "https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         accent: "var(--gold)",
     },
 ];
@@ -67,7 +67,7 @@ export default function Destinations() {
                     />
                     <FadeIn delay={0.2}>
                         <p className="body-text text-foreground/60 max-w-2xl mx-auto mt-6">
-                            From tropical paradises to alpine wonderlands, each PS Hotel property
+                            From tropical paradises to alpine wonderlands, each PRS Hotel property
                             is handpicked for its extraordinary beauty and exclusivity.
                         </p>
                     </FadeIn>

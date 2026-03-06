@@ -21,7 +21,7 @@ const features = [
         number: "03",
         title: "Architectural Elegance",
         description:
-            "Each PS Hotel property is a testament to design excellence, seamlessly blending contemporary aesthetics with the cultural heritage of its surroundings.",
+            "Each PRS Hotel property is a testament to design excellence, seamlessly blending contemporary aesthetics with the cultural heritage of its surroundings.",
     },
     {
         number: "04",
@@ -37,7 +37,7 @@ export default function Features() {
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-20">
                     <FadeIn>
-                        <p className="subtitle mb-6">Why PS Hotel</p>
+                        <p className="subtitle mb-6">Why PRS Hotel</p>
                     </FadeIn>
                     <TextScrollReveal
                         text="Redefining The Art Of Hospitality"

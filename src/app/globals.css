@@ -4,16 +4,16 @@
 
 @layer base {
   :root {
-    --background: 250 250 248;
-    /* Off-white/Cream Background */
-    --foreground: 30 30 30;
-    /* Dark Charcoal Text */
-    --turquoise: 77 155 49;
-    /* Lemon Tree Green */
-    --gold: 242 169 0;
-    /* Lemon Tree Vivid Yellow/Orange */
-    --cream: 255 255 255;
-    /* Pure White for cards */
+    --background: 10 10 10;
+    /* Deep Black Background */
+    --foreground: 250 250 250;
+    /* Pure White Text */
+    --turquoise: 212 175 55;
+    /* Luxury Gold */
+    --gold: 197 160 89;
+    /* Muted Metallic Gold */
+    --cream: 20 20 20;
+    /* Off-black for cards */
   }
 
   * {

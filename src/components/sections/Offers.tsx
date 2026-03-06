@@ -9,7 +9,7 @@ const offers = [
     {
         title: "Advance Purchase Offer",
         desc: "Book up to 14 days in advance and get 15% off the Best Available Rate. Enjoy a luxurious stay with premium amenities.",
-        image: "https://images.unsplash.com/photo-1542314831-c6a4d14d8c85?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         validity: "Valid till 31 Dec 2026",
     },
     {

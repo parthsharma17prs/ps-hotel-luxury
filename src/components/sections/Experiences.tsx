@@ -4,27 +4,32 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import TextScrollReveal from "../ui/TextScrollReveal";
 import { FadeIn } from "../ui/AnimationWrappers";
+import Image from "next/image";
 
 const experiences = [
     {
         title: "Private Yacht Charter",
         subtitle: "Sail the azure waters",
         description: "Cruise along pristine coastlines aboard our luxury fleet. Champagne sunsets and gourmet dining on deck.",
+        image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     },
     {
         title: "Helicopter Tours",
         subtitle: "See the world from above",
         description: "Soar over breathtaking landscapes with our bespoke aerial excursions. An unforgettable perspective.",
+        image: "https://images.unsplash.com/photo-1579568903511-2092c46f1cb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     },
     {
         title: "Underwater Dining",
         subtitle: "Dine beneath the waves",
         description: "An extraordinary culinary experience surrounded by marine life. A multi-course journey into the deep.",
+        image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     },
     {
         title: "Desert Safari",
         subtitle: "Embrace the golden dunes",
         description: "Luxury camping under starlit skies. Traditional feasts, falconry, and the silence of the desert.",
+        image: "https://images.unsplash.com/photo-1502581827181-9cf3c3ee0106?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     },
 ];
 
@@ -64,8 +69,17 @@ export default function Experiences() {
                         className="min-w-[320px] md:min-w-[420px] lg:min-w-[500px] group"
                     >
                         <div className="relative aspect-[4/5] bg-white/[0.03] border border-white/10 overflow-hidden">
+                            <Image
+                                src={exp.image}
+                                alt={exp.title}
+                                fill
+                                className="object-cover opacity-50 group-hover:opacity-70 group-hover:scale-105 transition-all duration-700"
+                            />
+                            {/* Overlay Gradient */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent z-[1]" />
+
                             {/* Content */}
-                            <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-10">
+                            <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-10 z-10">
                                 <span className="text-turquoise text-[10px] tracking-ultra uppercase mb-3">
                                     {exp.subtitle}
                                 </span>

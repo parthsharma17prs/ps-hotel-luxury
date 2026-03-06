@@ -20,8 +20,8 @@ const bricolage = Bricolage_Grotesque({
 export const metadata: Metadata = {
   title: "PS HOTEL | Luxury Redefined",
   description:
-    "Experience unparalleled luxury at PS Hotel. Premium destinations, world-class amenities, and bespoke hospitality that transcends expectations.",
-  keywords: "luxury hotel, premium resort, five star hotel, PS Hotel, boutique hotel",
+    "Experience unparalleled luxury at PRS Hotel. Premium destinations, world-class amenities, and bespoke hospitality that transcends expectations.",
+  keywords: "luxury hotel, premium resort, five star hotel, PRS Hotel, boutique hotel",
 };
 
 export default function RootLayout({

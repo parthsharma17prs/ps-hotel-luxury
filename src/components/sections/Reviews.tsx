@@ -10,21 +10,21 @@ const reviews = [
         name: "Alexandra Chen",
         location: "Hong Kong",
         rating: 5,
-        text: "PS Hotel redefined luxury for me. The attention to detail in the Maldives property was simply breathtaking. From the moment we arrived by seaplane to our overwater villa, every single moment was orchestrated to perfection.",
+        text: "PRS Hotel redefined luxury for me. The attention to detail in the Maldives property was simply breathtaking. From the moment we arrived by seaplane to our overwater villa, every single moment was orchestrated to perfection.",
         date: "November 2024",
     },
     {
         name: "James Whitmore",
         location: "London, UK",
         rating: 5,
-        text: "Having stayed at the finest establishments worldwide, I can confidently say PS Hotel's Alpine Serenity retreat stands in a class of its own. The chalet was impeccably designed, and the culinary experience was Michelin-worthy.",
+        text: "Having stayed at the finest establishments worldwide, I can confidently say PRS Hotel's Alpine Serenity retreat stands in a class of its own. The chalet was impeccably designed, and the culinary experience was Michelin-worthy.",
         date: "January 2025",
     },
     {
         name: "Priya Sharma",
         location: "Mumbai, India",
         rating: 5,
-        text: "Our honeymoon at the Desert Oasis was magical beyond words. The private tented suite, the candlelit dinner under the stars, the camel safari at dawn — PS Hotel created memories that will last our lifetime.",
+        text: "Our honeymoon at the Desert Oasis was magical beyond words. The private tented suite, the candlelit dinner under the stars, the camel safari at dawn — PRS Hotel created memories that will last our lifetime.",
         date: "December 2024",
     },
     {
@@ -38,7 +38,7 @@ const reviews = [
         name: "Sophie Laurent",
         location: "Paris, France",
         rating: 5,
-        text: "I have traveled to over 60 countries and PS Hotel consistently exceeds expectations. The Jungle Canopy treehouse suites in Costa Rica were an experience unlike anything else. Pure magic.",
+        text: "I have traveled to over 60 countries and PRS Hotel consistently exceeds expectations. The Jungle Canopy treehouse suites in Costa Rica were an experience unlike anything else. Pure magic.",
         date: "October 2024",
     },
 ];

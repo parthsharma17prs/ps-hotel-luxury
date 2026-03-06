@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const banners = [
     {
-        image: "https://images.unsplash.com/photo-1542314831-c6a4d14d8c85?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+        image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
         title: "Summer Getaways",
         subtitle: "Book your perfect summer vacay with up to 25% off.",
         cta: "Explore Now"
