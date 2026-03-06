@@ -121,7 +121,7 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center px-8 py-4 text-sm font-bold tracking-widest uppercase bg-turquoise text-white rounded-[50px] shadow-[4px_4px_0px_rgba(255, 184, 0, 1)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_rgba(255, 184, 0, 1)] transition-all duration-300;
+    @apply inline-flex items-center justify-center px-8 py-4 text-sm font-bold tracking-widest uppercase bg-turquoise text-white rounded-[50px] shadow-[4px_4px_0px_#FFB800] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#FFB800] transition-all duration-300;
   }
 
   .btn-outline {
@@ -149,13 +149,13 @@
   }
 
   .neo-shadow {
-    box-shadow: 6px 6px 0px rgba(123, 63, 228, 1);
+    box-shadow: 6px 6px 0px #7b3fe4;
     transition: all 0.3s ease;
   }
 
   .neo-shadow:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 8px 8px 0px rgba(123, 63, 228, 1);
+    transform: translate(-4px, -4px);
+    box-shadow: 10px 10px 0px #7b3fe4;
   }
 
   /* Magnetic effect */
