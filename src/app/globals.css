@@ -4,16 +4,16 @@
 
 @layer base {
   :root {
-    --background: 8 8 8;
-    /* Deep Black Background */
-    --foreground: 245 245 245;
-    /* Pure White Text */
-    --turquoise: 123 63 228;
-    /* Vibrant Purple */
-    --gold: 255 184 0;
-    /* Neon Yellow / Star color */
-    --cream: 240 237 255;
-    /* Pastel Lavender for Light Cards */
+    --background: 250 248 245;
+    /* Soft warm white */
+    --foreground: 22 18 15;
+    /* Dark brown / black */
+    --turquoise: 209 160 112;
+    /* Elegant Tan/Gold */
+    --gold: 209 160 112;
+    /* Elegant Tan/Gold */
+    --cream: 255 255 255;
+    /* Pure white */
   }
 
   * {
@@ -121,47 +121,18 @@
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center px-8 py-4 text-sm font-bold tracking-widest uppercase bg-turquoise text-white rounded-[50px] shadow-[4px_4px_0px_#FFB800] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[6px_6px_0px_#FFB800] transition-all duration-300;
+    @apply inline-flex items-center justify-center px-8 py-4 text-sm font-medium uppercase bg-[#1f140f] text-[#f9f9f9] rounded-none hover:bg-turquoise transition-all duration-500 ease-out;
   }
 
   .btn-outline {
-    @apply inline-flex items-center justify-center px-8 py-4 text-sm font-bold tracking-widest uppercase bg-transparent text-white rounded-[50px] border-2 border-white hover:bg-white hover:text-background transition-all duration-300;
+    @apply inline-flex items-center justify-center px-8 py-4 text-sm font-medium uppercase bg-[#f9f9f9] text-[#1f140f] rounded-none border-none hover:bg-turquoise hover:text-[#1f140f] transition-all duration-500 ease-out;
   }
 
   .btn-outline-dark {
-    @apply inline-flex items-center justify-center px-8 py-4 text-sm font-bold tracking-widest uppercase bg-transparent text-foreground rounded-[50px] border-2 border-foreground hover:bg-foreground hover:text-background transition-all duration-300;
+    @apply inline-flex items-center justify-center px-8 py-4 text-sm font-medium uppercase bg-transparent text-foreground rounded-none border border-foreground/30 hover:bg-foreground hover:text-background transition-all duration-500 ease-out;
   }
 
-  .arch-card {
-    border-top-left-radius: 999px;
-    border-top-right-radius: 999px;
-    border-bottom-left-radius: 24px;
-    border-bottom-right-radius: 24px;
-    overflow: hidden;
-  }
 
-  .arch-card-inverted {
-    border-bottom-left-radius: 999px;
-    border-bottom-right-radius: 999px;
-    border-top-left-radius: 24px;
-    border-top-right-radius: 24px;
-    overflow: hidden;
-  }
-
-  .neo-shadow {
-    box-shadow: 6px 6px 0px #7b3fe4;
-    transition: all 0.3s ease;
-  }
-
-  .neo-shadow:hover {
-    transform: translate(-4px, -4px);
-    box-shadow: 10px 10px 0px #7b3fe4;
-  }
-
-  /* Magnetic effect */
-  .magnetic {
-    transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-  }
 
   /* Reveal lines */
   .reveal-line {

@@ -77,8 +77,7 @@ export default function Amenities() {
                         <StaggerChild key={amenity.title}>
                             <motion.div
                                 whileHover={{ y: -5 }}
-                                transition={{ duration: 0.2 }}
-                                className={`group bg-cream border-2 border-slate-700/50 p-8 relative overflow-hidden neo-shadow ${amenity.title === "Luxury Spa" || amenity.title === "Sports & Recreation" ? "arch-card" : "rounded-3xl"}`}
+                                className="group bg-cream p-8 relative overflow-hidden transition-all duration-500 rounded-none shadow-sm hover:shadow-xl"
                             >
                                 {/* Hover accent */}
                                 <motion.div className="absolute bottom-0 left-0 w-full h-0 bg-gradient-to-t from-turquoise/5 to-transparent group-hover:h-full transition-all duration-700" />

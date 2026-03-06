@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { Manrope, Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/global/SmoothScroll";
 import Header from "@/components/global/Header";
 import CustomCursor from "@/components/global/CustomCursor";
 
-const sans = Plus_Jakarta_Sans({
+const sans = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
 });
 
-const display = Manrope({
+const display = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-cormorant",
   display: "swap",

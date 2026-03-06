@@ -39,7 +39,7 @@ export default function Header() {
                 initial={{ y: -100 }}
                 animate={{ y: 0 }}
                 transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-                className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl z-50 transition-all duration-700 bg-background/60 backdrop-blur-md rounded-[50px] border-2 border-white/10 neo-shadow"
+                className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${isScrolled ? "bg-white/95 backdrop-blur-md shadow-sm py-2" : "bg-transparent py-4"}`}
             >
                 <div className="flex items-center justify-between px-6 md:px-8 py-3">
                     {/* Logo */}
@@ -48,8 +48,8 @@ export default function Header() {
                             whileHover={{ scale: 1.02 }}
                             className="flex flex-col items-start"
                         >
-                            <span className="font-sans font-extrabold text-xl md:text-2xl tracking-tighter transition-colors duration-500 text-white">
-                                PRS Hotel
+                            <span className={`font-serif text-2xl md:text-3xl tracking-wide transition-colors duration-500 ${isScrolled ? "text-foreground" : "text-white"}`}>
+                                Royal Suits
                             </span>
                         </motion.div>
                     </Link>
@@ -65,7 +65,7 @@ export default function Header() {
                             >
                                 <Link
                                     href={link.href}
-                                    className="text-sm font-semibold tracking-wide hover:text-turquoise transition-colors duration-300 relative group text-white/90"
+                                    className={`text-sm font-sans font-medium tracking-wide hover:text-turquoise transition-colors duration-300 relative group ${isScrolled ? "text-foreground/80" : "text-white/90"}`}
                                 >
                                     {link.label}
                                 </Link>
@@ -83,9 +83,9 @@ export default function Header() {
                         >
                             <Link
                                 href="#booking"
-                                className="text-sm font-bold tracking-widest uppercase px-6 py-2.5 bg-turquoise text-white rounded-[50px] hover:scale-105 transition-transform duration-300"
+                                className={`text-xs font-sans font-medium tracking-widest uppercase px-8 py-3 transition-colors duration-500 rounded-none border-none ${isScrolled ? "bg-[#1f140f] text-white hover:bg-turquoise" : "bg-white text-black hover:bg-turquoise hover:text-white"}`}
                             >
-                                Book Now
+                                Book Your Stay →
                             </Link>
                         </motion.div>
 

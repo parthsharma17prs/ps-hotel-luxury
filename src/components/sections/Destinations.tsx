@@ -79,9 +79,7 @@ export default function Destinations() {
                             <motion.div
                                 whileHover={{ y: -5 }}
                                 transition={{ duration: 0.2 }}
-                                className={`group relative bg-cream border-2 border-foreground overflow-hidden neo-shadow flex flex-col h-full 
-                                ${i % 2 === 0 ? "arch-card" : "arch-card-inverted"} 
-                                ${i === 3 || i === 4 ? "md:col-span-1 lg:max-w-md mx-auto" : ""}`}
+                                className={`group relative bg-cream overflow-hidden flex flex-col h-full rounded-none transition-shadow hover:shadow-2xl shadow-sm ${i === 3 || i === 4 ? "md:col-span-1 lg:max-w-md mx-auto" : ""}`}
                             >
                                 {/* Image Container */}
                                 <div className="relative h-64 overflow-hidden">
