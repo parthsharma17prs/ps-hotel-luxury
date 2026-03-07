@@ -22,6 +22,9 @@ export default function Home() {
       {/* Hero Canvas Scroll (Sequence 1) */}
       <HeroScroll />
 
+      {/* Promotional Ribbon */}
+      <PromotionalRibbon />
+
       {/* About Section */}
       <About />
 
@@ -51,9 +54,6 @@ export default function Home() {
 
       {/* Experiences with Parallax */}
       <Experiences />
-
-      {/* Promotional Ribbon */}
-      <PromotionalRibbon />
 
       {/* Reviews / Testimonials */}
       <Reviews />
