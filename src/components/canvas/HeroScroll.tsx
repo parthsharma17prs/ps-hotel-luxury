@@ -9,7 +9,7 @@ const TOTAL_FRAMES = 924; // Full cinematic sequence
 export default function HeroScroll() {
     const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [images, setImages] = useState<HTMLImageElement[]>([]);
+    const imagesRef = useRef<HTMLImageElement[]>(new Array(TOTAL_FRAMES)); // Ref so drawFrame always has latest
     const [loadProgress, setLoadProgress] = useState(0);
     const [isLoaded, setIsLoaded] = useState(false);
     const currentFrameRef = useRef(0);
@@ -34,58 +34,48 @@ export default function HeroScroll() {
     const startTextOpacity = useTransform(springProgress, [0, 0.15], [1, 0]);
     const startTextY = useTransform(springProgress, [0, 0.15], [0, -60]);
 
-    // Optimized Preload Strategy: Load first 60 frames eagerly, then lazy load the rest in parallel batches
+    // Load strategy: first 30 frames sequential → then ALL remaining fired in parallel
     useEffect(() => {
-        const loadedImages: HTMLImageElement[] = new Array(TOTAL_FRAMES);
+        const CRITICAL_FRAMES = 30;
         let loaded = 0;
-        const CRITICAL_FRAMES = 60; // Min frames needed to start the experience
         let criticalReady = false;
 
         const loadFrame = (i: number): Promise<void> => {
             return new Promise<void>((resolve) => {
                 const img = new Image();
-                const paddedIndex = i.toString().padStart(5, "0");
-                img.src = `/sequence-1/${paddedIndex}.jpg`;
+                img.src = `/sequence-1/${i.toString().padStart(5, "0")}.jpg`;
 
                 img.onload = () => {
                     loaded++;
-                    loadedImages[i - 1] = img;
-                    const progress = Math.round((loaded / TOTAL_FRAMES) * 100);
-                    setLoadProgress(progress);
+                    imagesRef.current[i - 1] = img;
+                    setLoadProgress(Math.round((loaded / TOTAL_FRAMES) * 100));
 
                     if (!criticalReady && loaded >= CRITICAL_FRAMES) {
                         criticalReady = true;
-                        setImages([...loadedImages]);
                         setIsLoaded(true);
-                    } else if (criticalReady && loaded % 50 === 0) {
-                        // Periodically sync the images array so new frames become available
-                        setImages([...loadedImages]);
+                    }
+                    // Redraw current frame every time a new image loads
+                    // (covers the case where previously requested frame just arrived)
+                    if (criticalReady) {
+                        requestAnimationFrame(() => drawFrameDirect(currentFrameRef.current));
                     }
                     resolve();
                 };
-                img.onerror = () => {
-                    loaded++;
-                    resolve();
-                };
+                img.onerror = () => { loaded++; resolve(); };
             });
         };
 
         const loadSequence = async () => {
-            // Priority 1: Load first 60 frames sequentially for immediate start
+            // Phase 1: load first 30 frames one-by-one so user sees something fast
             for (let i = 1; i <= CRITICAL_FRAMES; i++) {
                 await loadFrame(i);
             }
-
-            // Priority 2: Load remaining frames in parallel batches of 20
-            const BATCH_SIZE = 20;
-            for (let i = CRITICAL_FRAMES + 1; i <= TOTAL_FRAMES; i += BATCH_SIZE) {
-                const batch: Promise<void>[] = [];
-                for (let j = i; j < i + BATCH_SIZE && j <= TOTAL_FRAMES; j++) {
-                    batch.push(loadFrame(j));
-                }
-                await Promise.all(batch);
-                setImages([...loadedImages]);
+            // Phase 2: fire ALL remaining frames simultaneously
+            const remaining: Promise<void>[] = [];
+            for (let i = CRITICAL_FRAMES + 1; i <= TOTAL_FRAMES; i++) {
+                remaining.push(loadFrame(i));
             }
+            await Promise.all(remaining);
         };
 
         loadSequence();
@@ -107,41 +97,41 @@ export default function HeroScroll() {
         if (ctx) ctx.scale(dpr, dpr);
     }, []);
 
-    const drawFrame = useCallback(
-        (frameIndex: number) => {
-            const canvas = canvasRef.current;
-            if (!canvas || !images[frameIndex]) return;
+    // Direct draw using ref (no stale closure issue)
+    const drawFrameDirect = useCallback((frameIndex: number) => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
 
-            const ctx = canvas.getContext("2d");
-            if (!ctx) return;
-
-            const img = images[frameIndex];
-
-            // Draw image with cover behavior
-            const canvasW = window.innerWidth;
-            const canvasH = window.innerHeight;
-            const imgRatio = img.naturalWidth / img.naturalHeight;
-            const canvasRatio = canvasW / canvasH;
-
-            let drawW: number, drawH: number, drawX: number, drawY: number;
-
-            if (imgRatio > canvasRatio) {
-                drawH = canvasH;
-                drawW = canvasH * imgRatio;
-                drawX = (canvasW - drawW) / 2;
-                drawY = 0;
-            } else {
-                drawW = canvasW;
-                drawH = canvasW / imgRatio;
-                drawX = 0;
-                drawY = (canvasH - drawH) / 2;
+        // Find the requested frame or nearest loaded frame before it
+        let img = imagesRef.current[frameIndex];
+        if (!img) {
+            for (let i = frameIndex - 1; i >= 0; i--) {
+                if (imagesRef.current[i]) { img = imagesRef.current[i]; break; }
             }
+        }
+        if (!img) return;
 
-            ctx.clearRect(0, 0, canvasW, canvasH);
-            ctx.drawImage(img, drawX, drawY, drawW, drawH);
-        },
-        [images]
-    );
+        const canvasW = window.innerWidth;
+        const canvasH = window.innerHeight;
+        const imgRatio = img.naturalWidth / img.naturalHeight;
+        const canvasRatio = canvasW / canvasH;
+
+        let drawW: number, drawH: number, drawX: number, drawY: number;
+        if (imgRatio > canvasRatio) {
+            drawH = canvasH; drawW = canvasH * imgRatio;
+            drawX = (canvasW - drawW) / 2; drawY = 0;
+        } else {
+            drawW = canvasW; drawH = canvasW / imgRatio;
+            drawX = 0; drawY = (canvasH - drawH) / 2;
+        }
+        ctx.clearRect(0, 0, canvasW, canvasH);
+        ctx.drawImage(img, drawX, drawY, drawW, drawH);
+    }, []);
+
+    // Keep drawFrame alias for scroll handler
+    const drawFrame = drawFrameDirect;
 
     // Initial canvas setup
     useEffect(() => {
