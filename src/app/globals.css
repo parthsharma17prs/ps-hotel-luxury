@@ -192,4 +192,18 @@
   .delay-800 {
     animation-delay: 800ms;
   }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 3s infinite linear;
+  }
 }

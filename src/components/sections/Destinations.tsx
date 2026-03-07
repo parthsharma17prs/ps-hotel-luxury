@@ -12,7 +12,7 @@ const destinations = [
         price: "₹1,25,000",
         perNight: "per night",
         description: "Overwater villas suspended above crystal-clear lagoons. Private infinity pools and direct ocean access.",
-        image: "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        image: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?q=80&w=2070&auto=format&fit=crop",
         accent: "var(--gold)",
     },
     {
@@ -21,7 +21,7 @@ const destinations = [
         price: "₹95,000",
         perNight: "per night",
         description: "Secluded chalets nestled among snow-capped peaks. Fireside luxury with panoramic mountain views.",
-        image: "https://images.unsplash.com/photo-1518684079-3c830dcef090?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        image: "https://images.unsplash.com/photo-1502784444187-359ac186c5bb?q=80&w=2071&auto=format&fit=crop",
         accent: "var(--turquoise)",
     },
     {
@@ -30,7 +30,7 @@ const destinations = [
         price: "₹1,10,000",
         perNight: "per night",
         description: "Luxury tented camps amid golden dunes. Starlit desert experiences with Arabian hospitality.",
-        image: "https://images.unsplash.com/photo-1496417263034-38ec4f0b665a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        image: "https://images.unsplash.com/photo-1489493173507-6feea31f12ff?q=80&w=2070&auto=format&fit=crop",
         accent: "var(--gold)",
     },
     {
@@ -39,7 +39,7 @@ const destinations = [
         price: "₹85,000",
         perNight: "per night",
         description: "Treehouse suites woven into the rainforest canopy. Wake to the symphony of exotic birds.",
-        image: "https://images.unsplash.com/photo-1596395819057-e37f55a85045?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        image: "https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?q=80&w=2070&auto=format&fit=crop",
         accent: "var(--turquoise)",
     },
     {
@@ -48,7 +48,7 @@ const destinations = [
         price: "₹1,50,000",
         perNight: "per night",
         description: "Penthouse suites in the heart of Tokyo. Where ancient tradition meets futuristic luxury.",
-        image: "https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        image: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=1967&auto=format&fit=crop",
         accent: "var(--gold)",
     },
 ];

@@ -4,6 +4,7 @@ import "./globals.css";
 import SmoothScroll from "@/components/global/SmoothScroll";
 import Header from "@/components/global/Header";
 import CustomCursor from "@/components/global/CustomCursor";
+import DiscountTimer from "@/components/ui/DiscountTimer";
 
 const sans = Inter({
   subsets: ["latin"],
@@ -36,6 +37,7 @@ export default function RootLayout({
           <CustomCursor />
           <Header />
           {children}
+          <DiscountTimer />
         </SmoothScroll>
       </body>
     </html>

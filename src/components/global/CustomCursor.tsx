@@ -1,51 +1,54 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 
 export default function CustomCursor() {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const cursorX = useMotionValue(-100);
+    const cursorY = useMotionValue(-100);
+
+    // Smooth springs for the outer ring
+    const springConfig = { stiffness: 250, damping: 20, mass: 0.5 };
+    const ringX = useSpring(cursorX, springConfig);
+    const ringY = useSpring(cursorY, springConfig);
+
     const [isHovering, setIsHovering] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        // Only show custom cursor on desktop
-        if (typeof window !== "undefined" && window.innerWidth < 768) return;
+        if (typeof window === "undefined" || window.innerWidth < 768) return;
 
-        const handleMouseMove = (e: MouseEvent) => {
-            setMousePosition({ x: e.clientX, y: e.clientY });
+        const moveCursor = (e: MouseEvent) => {
+            cursorX.set(e.clientX);
+            cursorY.set(e.clientY);
             if (!isVisible) setIsVisible(true);
         };
 
-        const handleMouseEnter = () => setIsVisible(true);
-        const handleMouseLeave = () => setIsVisible(false);
+        const handleMouseDown = () => setIsHovering(true);
+        const handleMouseUp = () => setIsHovering(false);
 
-        // Detect hoverable elements
-        const addHoverListeners = () => {
-            const hoverables = document.querySelectorAll(
-                "a, button, [data-cursor-hover], input, textarea, select"
-            );
-            hoverables.forEach((el) => {
-                el.addEventListener("mouseenter", () => setIsHovering(true));
-                el.addEventListener("mouseleave", () => setIsHovering(false));
-            });
+        // Delegation for hover detection (more efficient than querying all elements)
+        const handleMouseOver = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            const isClickable = target.closest("a, button, [data-cursor-hover], input, select, textarea");
+            setIsHovering(!!isClickable);
         };
 
-        window.addEventListener("mousemove", handleMouseMove);
-        document.addEventListener("mouseenter", handleMouseEnter);
-        document.addEventListener("mouseleave", handleMouseLeave);
+        window.addEventListener("mousemove", moveCursor, { passive: true });
+        window.addEventListener("mousedown", handleMouseDown);
+        window.addEventListener("mouseup", handleMouseUp);
+        window.addEventListener("mouseover", handleMouseOver);
 
-        // Re-check for hoverables periodically
-        addHoverListeners();
-        const interval = setInterval(addHoverListeners, 2000);
+        document.body.style.cursor = "none";
 
         return () => {
-            window.removeEventListener("mousemove", handleMouseMove);
-            document.removeEventListener("mouseenter", handleMouseEnter);
-            document.removeEventListener("mouseleave", handleMouseLeave);
-            clearInterval(interval);
+            window.removeEventListener("mousemove", moveCursor);
+            window.removeEventListener("mousedown", handleMouseDown);
+            window.removeEventListener("mouseup", handleMouseUp);
+            window.removeEventListener("mouseover", handleMouseOver);
+            document.body.style.cursor = "auto";
         };
-    }, [isVisible]);
+    }, [isVisible, cursorX, cursorY]);
 
     if (typeof window !== "undefined" && window.innerWidth < 768) return null;
 
@@ -53,43 +56,35 @@ export default function CustomCursor() {
         <AnimatePresence>
             {isVisible && (
                 <>
-                    {/* Outer ring */}
+                    {/* Inner Dot - Fast following */}
                     <motion.div
-                        className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference hidden md:block"
-                        animate={{
-                            x: mousePosition.x - (isHovering ? 24 : 16),
-                            y: mousePosition.y - (isHovering ? 24 : 16),
-                            width: isHovering ? 48 : 32,
-                            height: isHovering ? 48 : 32,
+                        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-white z-[9999] pointer-events-none mix-blend-difference"
+                        style={{
+                            x: cursorX,
+                            y: cursorY,
+                            translateX: "-50%",
+                            translateY: "-50%",
                         }}
-                        transition={{
-                            type: "spring",
-                            stiffness: 150,
-                            damping: 15,
-                            mass: 0.1,
-                        }}
-                    >
-                        <div
-                            className={`w-full h-full rounded-full border transition-colors duration-300 ${isHovering ? "border-turquoise bg-turquoise/10" : "border-white/60"
-                                }`}
-                        />
-                    </motion.div>
-                    {/* Inner dot */}
+                    />
+
+                    {/* Outer Ring - Smooth following */}
                     <motion.div
-                        className="fixed top-0 left-0 w-1 h-1 pointer-events-none z-[9999] mix-blend-difference hidden md:block"
+                        className="fixed top-0 left-0 rounded-full border border-white/40 z-[9999] pointer-events-none mix-blend-difference"
+                        style={{
+                            x: ringX,
+                            y: ringY,
+                            translateX: "-50%",
+                            translateY: "-50%",
+                            width: isHovering ? 60 : 36,
+                            height: isHovering ? 60 : 36,
+                        }}
                         animate={{
-                            x: mousePosition.x - 2,
-                            y: mousePosition.y - 2,
+                            scale: isHovering ? 1.2 : 1,
+                            borderColor: isHovering ? "rgba(209, 160, 112, 1)" : "rgba(255, 255, 255, 0.4)",
+                            backgroundColor: isHovering ? "rgba(209, 160, 112, 0.1)" : "rgba(255, 255, 255, 0)",
                         }}
-                        transition={{
-                            type: "spring",
-                            stiffness: 500,
-                            damping: 28,
-                            mass: 0.05,
-                        }}
-                    >
-                        <div className="w-1 h-1 rounded-full bg-white" />
-                    </motion.div>
+                        transition={{ duration: 0.3 }}
+                    />
                 </>
             )}
         </AnimatePresence>

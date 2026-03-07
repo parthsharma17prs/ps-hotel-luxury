@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
-const TOTAL_FRAMES = 924;
+const TOTAL_FRAMES = 200; // Drastically reduced from 924 for instant load
 
 
 export default function HeroScroll() {
@@ -34,33 +34,71 @@ export default function HeroScroll() {
     const startTextOpacity = useTransform(springProgress, [0, 0.15], [1, 0]);
     const startTextY = useTransform(springProgress, [0, 0.15], [0, -60]);
 
-    // Preload images
+    // Optimized Preload Strategy: Load first 30 frames for immediate show, then lazy load the rest
     useEffect(() => {
         const loadedImages: HTMLImageElement[] = [];
         let loaded = 0;
+        const CRITICAL_FRAMES = 30; // Min frames needed to start the experience
 
-        for (let i = 1; i <= TOTAL_FRAMES; i++) {
-            const img = new Image();
-            const paddedIndex = i.toString().padStart(5, "0");
-            img.src = `/sequence-1/${paddedIndex}.jpg`;
-            img.onload = () => {
-                loaded++;
-                setLoadProgress(Math.round((loaded / TOTAL_FRAMES) * 100));
-                if (loaded === TOTAL_FRAMES) {
-                    setIsLoaded(true);
-                }
-            };
-            img.onerror = () => {
-                loaded++;
-                setLoadProgress(Math.round((loaded / TOTAL_FRAMES) * 100));
-            };
-            loadedImages[i - 1] = img;
-        }
+        const loadFrame = (i: number) => {
+            return new Promise<void>((resolve) => {
+                const img = new Image();
+                // Assumes we have a downsampled or smaller set of images
+                const paddedIndex = i.toString().padStart(5, "0");
+                img.src = `/sequence-1/${paddedIndex}.jpg`;
 
-        setImages(loadedImages);
+                img.onload = () => {
+                    loaded++;
+                    loadedImages[i - 1] = img;
+                    const progress = Math.round((loaded / TOTAL_FRAMES) * 100);
+                    setLoadProgress(progress);
+
+                    if (loaded >= CRITICAL_FRAMES && !isLoaded) {
+                        setIsLoaded(true);
+                    }
+                    resolve();
+                };
+                img.onerror = () => {
+                    loaded++;
+                    const progress = Math.round((loaded / TOTAL_FRAMES) * 100);
+                    setLoadProgress(progress);
+                    resolve();
+                };
+            });
+        };
+
+        // Load critical frames first
+        const loadSequence = async () => {
+            // Priority 1: First 30
+            for (let i = 1; i <= CRITICAL_FRAMES; i++) {
+                await loadFrame(i);
+            }
+
+            // Priority 2: Rest in chunks
+            for (let i = CRITICAL_FRAMES + 1; i <= TOTAL_FRAMES; i++) {
+                loadFrame(i); // Non-blocking lazy load
+            }
+            setImages(loadedImages);
+        };
+
+        loadSequence();
+    }, [isLoaded]);
+
+    // Draw initial frame and resize logic
+    const resizeCanvas = useCallback(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        canvas.style.width = `${window.innerWidth}px`;
+        canvas.style.height = `${window.innerHeight}px`;
+
+        const ctx = canvas.getContext("2d");
+        if (ctx) ctx.scale(dpr, dpr);
     }, []);
 
-    // Canvas drawing
     const drawFrame = useCallback(
         (frameIndex: number) => {
             const canvas = canvasRef.current;
@@ -70,13 +108,6 @@ export default function HeroScroll() {
             if (!ctx) return;
 
             const img = images[frameIndex];
-            const dpr = window.devicePixelRatio || 1;
-
-            canvas.width = window.innerWidth * dpr;
-            canvas.height = window.innerHeight * dpr;
-            canvas.style.width = `${window.innerWidth}px`;
-            canvas.style.height = `${window.innerHeight}px`;
-            ctx.scale(dpr, dpr);
 
             // Draw image with cover behavior
             const canvasW = window.innerWidth;
@@ -98,10 +129,16 @@ export default function HeroScroll() {
                 drawY = (canvasH - drawH) / 2;
             }
 
+            ctx.clearRect(0, 0, canvasW, canvasH);
             ctx.drawImage(img, drawX, drawY, drawW, drawH);
         },
         [images]
     );
+
+    // Initial canvas setup
+    useEffect(() => {
+        resizeCanvas();
+    }, [resizeCanvas]);
 
     // Animate canvas on scroll
     useEffect(() => {
@@ -125,14 +162,17 @@ export default function HeroScroll() {
         drawFrame(0);
 
         // Handle resize
-        const handleResize = () => drawFrame(currentFrameRef.current);
+        const handleResize = () => {
+            resizeCanvas();
+            drawFrame(currentFrameRef.current);
+        };
         window.addEventListener("resize", handleResize);
 
         return () => {
             unsubscribe();
             window.removeEventListener("resize", handleResize);
         };
-    }, [isLoaded, springProgress, drawFrame]);
+    }, [isLoaded, springProgress, drawFrame, resizeCanvas]);
 
     return (
         <section ref={containerRef} className="relative h-[800vh]" id="hero">
@@ -194,7 +234,71 @@ export default function HeroScroll() {
                     </div>
                 </motion.div>
 
-                {/* Text overlay - appears after frame 300 */}
+                {/* Intermediate Text: The Service (NEW) */}
+                <motion.div
+                    style={{
+                        opacity: useTransform(springProgress, [0.08, 0.16, 0.24], [0, 1, 0]),
+                        scale: useTransform(springProgress, [0.08, 0.24], [0.98, 1.02])
+                    }}
+                    className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none"
+                >
+                    <div className="text-center px-4">
+                        <span className="text-turquoise-light text-[10px] tracking-[0.6em] uppercase mb-4 block">Personalized</span>
+                        <h2 className="font-serif text-3xl md:text-5xl text-white tracking-wider leading-tight">
+                            Service at <br /> <span className="italic">Every Touch</span>
+                        </h2>
+                    </div>
+                </motion.div>
+
+                {/* Intermediate Text 1: The Design */}
+                <motion.div
+                    style={{
+                        opacity: useTransform(springProgress, [0.28, 0.38, 0.48], [0, 1, 0]),
+                        y: useTransform(springProgress, [0.28, 0.48], [40, -40])
+                    }}
+                    className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none"
+                >
+                    <div className="text-center px-4">
+                        <span className="text-turquoise-light text-[10px] tracking-[0.5em] uppercase mb-4 block">Craftsmanship</span>
+                        <h2 className="font-serif text-4xl md:text-6xl text-white tracking-wider leading-tight">
+                            Every Detail <br /> <span className="italic">Redefined</span>
+                        </h2>
+                    </div>
+                </motion.div>
+
+                {/* Intermediate Text 2: The Ambience */}
+                <motion.div
+                    style={{
+                        opacity: useTransform(springProgress, [0.52, 0.62, 0.72], [0, 1, 0]),
+                        scale: useTransform(springProgress, [0.52, 0.72], [0.95, 1.05])
+                    }}
+                    className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none"
+                >
+                    <div className="text-center px-4">
+                        <span className="text-turquoise-light text-[10px] tracking-[0.5em] uppercase mb-4 block">The Atmosphere</span>
+                        <h2 className="font-serif text-4xl md:text-6xl text-white tracking-wider leading-tight">
+                            Timeless <br /> <span className="italic">Elegance</span>
+                        </h2>
+                    </div>
+                </motion.div>
+
+                {/* Intermediate Text 3: The Sanctuary */}
+                <motion.div
+                    style={{
+                        opacity: useTransform(springProgress, [0.75, 0.82, 0.90], [0, 1, 0]),
+                        x: useTransform(springProgress, [0.75, 0.90], [-50, 50])
+                    }}
+                    className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none"
+                >
+                    <div className="text-center px-4">
+                        <span className="text-turquoise-light text-[10px] tracking-[0.5em] uppercase mb-4 block">Your Sanctuary</span>
+                        <h2 className="font-serif text-4xl md:text-6xl text-white tracking-wider leading-tight">
+                            The Peak of <br /> <span className="italic">Refinement</span>
+                        </h2>
+                    </div>
+                </motion.div>
+
+                {/* Final Text overlay - appears after frame 300 */}
                 <motion.div
                     style={{ opacity: textOpacity, y: textY }}
                     className="absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none"
@@ -216,14 +320,47 @@ export default function HeroScroll() {
                             Immerse yourself in a world where every detail is crafted to perfection.
                             Your sanctuary of luxury awaits.
                         </p>
-                        <motion.a
-                            href="#booking"
-                            whileHover={{ scale: 1.05, backgroundColor: "#fff", color: "#1A1A1A" }}
-                            whileTap={{ scale: 0.98 }}
-                            className="btn-outline inline-block"
-                        >
-                            Schedule Your Stay
-                        </motion.a>
+                        <div className="flex flex-col items-center gap-12">
+                            <motion.a
+                                href="#accommodations"
+                                whileHover={{ scale: 1.05, backgroundColor: "#fff", color: "#1A1A1A" }}
+                                whileTap={{ scale: 0.98 }}
+                                className="btn-outline inline-block"
+                            >
+                                Discover Our Rooms
+                            </motion.a>
+
+                            {/* Integrated Booking Bar */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.3 }}
+                                className="bg-white/10 backdrop-blur-md border border-white/20 p-4 md:p-6 w-full max-w-4xl flex flex-wrap items-center justify-between gap-6"
+                            >
+                                <div className="flex items-center gap-8 flex-1 min-w-[300px] justify-center md:justify-start">
+                                    <div className="flex flex-col gap-1 border-r border-white/20 pr-8">
+                                        <span className="text-[10px] tracking-widest uppercase text-white/50">Check In</span>
+                                        <span className="font-serif text-sm text-white">Select Date</span>
+                                    </div>
+                                    <div className="flex flex-col gap-1 border-r border-white/20 pr-8">
+                                        <span className="text-[10px] tracking-widest uppercase text-white/50">Check Out</span>
+                                        <span className="font-serif text-sm text-white">Select Date</span>
+                                    </div>
+                                    <div className="flex flex-col gap-1">
+                                        <span className="text-[10px] tracking-widest uppercase text-white/50">Guests</span>
+                                        <span className="font-serif text-sm text-white">2 Adults, 1 Child</span>
+                                    </div>
+                                </div>
+
+                                <motion.button
+                                    whileHover={{ scale: 1.02, backgroundColor: "#fff", color: "#1f140f" }}
+                                    whileTap={{ scale: 0.98 }}
+                                    className="bg-turquoise text-white px-10 py-4 text-xs font-bold tracking-widest uppercase transition-colors"
+                                >
+                                    Check Availability
+                                </motion.button>
+                            </motion.div>
+                        </div>
                     </div>
                 </motion.div>
 

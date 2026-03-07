@@ -37,7 +37,7 @@ export default function Gallery() {
                     </FadeIn>
                     <TextScrollReveal
                         text="A Glimpse Into Paradise"
-                        className="heading-lg text-foreground"
+                        className="heading-lg text-[#1f140f] font-bold"
                     />
                 </div>
 

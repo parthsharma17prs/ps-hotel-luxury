@@ -97,9 +97,13 @@ export default function Reviews() {
                         </div>
 
                         {/* Quote */}
-                        <p className="font-serif text-xl md:text-2xl lg:text-3xl text-foreground/80 leading-relaxed italic mb-10">
-                            &ldquo;{reviews[activeIndex].text}&rdquo;
-                        </p>
+                        <TextScrollReveal
+                            key={`review-${activeIndex}`}
+                            text={`“${reviews[activeIndex].text}”`}
+                            tag="p"
+                            staggerDelay={0.015}
+                            className="font-serif text-xl md:text-2xl lg:text-3xl text-foreground/80 leading-relaxed italic mb-10 text-center"
+                        />
 
                         {/* Author */}
                         <div>
