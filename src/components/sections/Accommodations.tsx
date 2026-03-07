@@ -9,6 +9,7 @@ const accommodations = [
         title: "Royal Penthouse",
         category: "Suites",
         price: "₹1,25,000",
+        rating: 5,
         image: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=2070&auto=format&fit=crop",
         features: ["Private Pool", "24/7 Butler", "Panoramic City View"]
     },
@@ -16,6 +17,7 @@ const accommodations = [
         title: "Ocean Breeze Villa",
         category: "Villas",
         price: "₹85,000",
+        rating: 5,
         image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2070&auto=format&fit=crop",
         features: ["Beachfront", "Garden Shower", "Private Deck"]
     },
@@ -23,6 +25,7 @@ const accommodations = [
         title: "Grand Deluxe Room",
         category: "Rooms",
         price: "₹45,000",
+        rating: 5,
         image: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?q=80&w=2070&auto=format&fit=crop",
         features: ["King Bed", "Smart Control", "Marble Bath"]
     },
@@ -30,6 +33,7 @@ const accommodations = [
         title: "Skyline Suite",
         category: "Suites",
         price: "₹95,000",
+        rating: 5,
         image: "https://images.unsplash.com/photo-1590490359683-658d3d23f972?q=80&w=2070&auto=format&fit=crop",
         features: ["Floor Ceiling Windows", "Smart Lighting", "Executive Access"]
     },
@@ -37,6 +41,7 @@ const accommodations = [
         title: "Garden Villa",
         category: "Villas",
         price: "₹75,000",
+        rating: 5,
         image: "https://images.unsplash.com/photo-1540518614846-7eded433c457?q=80&w=2070&auto=format&fit=crop",
         features: ["Zen Garden", "Private Gazebo", "Outdoor Yoga Space"]
     }
@@ -95,9 +100,27 @@ export default function Accommodations() {
                                     </ul>
                                 </div>
                             </div>
-                            <div className="space-y-2">
-                                <span className="text-[10px] tracking-[0.3em] uppercase text-turquoise/80 font-bold">{item.category}</span>
-                                <h3 className="font-serif text-2xl group-hover:text-turquoise transition-all duration-300">{item.title}</h3>
+                            <div className="space-y-4">
+                                <div className="flex justify-between items-start">
+                                    <div className="space-y-1">
+                                        <span className="text-[10px] tracking-[0.3em] uppercase text-turquoise/80 font-bold">{item.category}</span>
+                                        <h3 className="font-serif text-2xl group-hover:text-turquoise transition-all duration-300">{item.title}</h3>
+                                        <div className="flex gap-0.5">
+                                            {[...Array(item.rating)].map((_, i) => (
+                                                <svg key={i} className="w-3 h-3 text-gold fill-current" viewBox="0 0 24 24">
+                                                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                                                </svg>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="text-[10px] font-bold tracking-widest uppercase text-white bg-foreground px-4 py-2 hover:bg-turquoise transition-colors duration-300"
+                                    >
+                                        Book Now
+                                    </motion.button>
+                                </div>
                             </div>
                         </div>
                     ))}

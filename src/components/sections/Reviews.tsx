@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import TextScrollReveal from "../ui/TextScrollReveal";
 import { FadeIn } from "../ui/AnimationWrappers";
@@ -46,6 +46,14 @@ const reviews = [
 export default function Reviews() {
     const [activeIndex, setActiveIndex] = useState(0);
     const sectionRef = useRef<HTMLDivElement>(null);
+
+    // Auto-swap every 3 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveIndex((current) => (current + 1) % reviews.length);
+        }, 3000);
+        return () => clearInterval(interval);
+    }, []);
 
     return (
         <section

@@ -77,8 +77,8 @@ export default function Offers() {
                                         <p className="text-xs uppercase tracking-widest text-gold mb-4">
                                             {offer.validity}
                                         </p>
-                                        <button className="text-xs uppercase tracking-widest font-semibold border-b border-foreground pb-1 hover:text-gold hover:border-gold transition-colors duration-300">
-                                            View Details
+                                        <button className="text-[10px] uppercase tracking-widest font-bold bg-foreground text-white px-6 py-2.5 hover:bg-turquoise transition-colors duration-300">
+                                            Book Now
                                         </button>
                                     </div>
                                 </div>

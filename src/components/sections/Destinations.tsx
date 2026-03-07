@@ -14,6 +14,7 @@ const destinations = [
         description: "Overwater villas suspended above crystal-clear lagoons. Private infinity pools and direct ocean access.",
         image: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?q=80&w=2070&auto=format&fit=crop",
         accent: "var(--gold)",
+        rating: 5,
     },
     {
         name: "Alpine Serenity",
@@ -23,6 +24,7 @@ const destinations = [
         description: "Secluded chalets nestled among snow-capped peaks. Fireside luxury with panoramic mountain views.",
         image: "https://images.unsplash.com/photo-1502784444187-359ac186c5bb?q=80&w=2071&auto=format&fit=crop",
         accent: "var(--turquoise)",
+        rating: 5,
     },
     {
         name: "Desert Oasis",
@@ -32,6 +34,7 @@ const destinations = [
         description: "Luxury tented camps amid golden dunes. Starlit desert experiences with Arabian hospitality.",
         image: "https://images.unsplash.com/photo-1489493173507-6feea31f12ff?q=80&w=2070&auto=format&fit=crop",
         accent: "var(--gold)",
+        rating: 5,
     },
     {
         name: "Jungle Canopy",
@@ -41,6 +44,7 @@ const destinations = [
         description: "Treehouse suites woven into the rainforest canopy. Wake to the symphony of exotic birds.",
         image: "https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?q=80&w=2070&auto=format&fit=crop",
         accent: "var(--turquoise)",
+        rating: 5,
     },
     {
         name: "Urban Sanctuary",
@@ -50,6 +54,7 @@ const destinations = [
         description: "Penthouse suites in the heart of Tokyo. Where ancient tradition meets futuristic luxury.",
         image: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=1967&auto=format&fit=crop",
         accent: "var(--gold)",
+        rating: 5,
     },
 ];
 
@@ -104,7 +109,7 @@ export default function Destinations() {
                                                 {dest.name}
                                             </h3>
                                             <div className="flex gap-1 mt-1">
-                                                {[...Array(5)].map((_, index) => (
+                                                {[...Array(dest.rating)].map((_, index) => (
                                                     <svg key={index} className="w-4 h-4 text-gold fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
                                                     </svg>
@@ -129,9 +134,9 @@ export default function Destinations() {
                                         <motion.button
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
-                                            className="text-xs font-bold tracking-widest uppercase text-turquoise hover:text-gold transition-colors"
+                                            className="text-[10px] font-bold tracking-widest uppercase text-white bg-foreground px-4 py-2 hover:bg-turquoise transition-colors duration-300"
                                         >
-                                            View →
+                                            Book Now
                                         </motion.button>
                                     </div>
                                 </div>
