@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
-const TOTAL_FRAMES = 200; // Drastically reduced from 924 for instant load
+const TOTAL_FRAMES = 924; // Full cinematic sequence
 
 
 export default function HeroScroll() {
@@ -34,16 +34,16 @@ export default function HeroScroll() {
     const startTextOpacity = useTransform(springProgress, [0, 0.15], [1, 0]);
     const startTextY = useTransform(springProgress, [0, 0.15], [0, -60]);
 
-    // Optimized Preload Strategy: Load first 30 frames for immediate show, then lazy load the rest
+    // Optimized Preload Strategy: Load first 60 frames eagerly, then lazy load the rest in parallel batches
     useEffect(() => {
-        const loadedImages: HTMLImageElement[] = [];
+        const loadedImages: HTMLImageElement[] = new Array(TOTAL_FRAMES);
         let loaded = 0;
-        const CRITICAL_FRAMES = 30; // Min frames needed to start the experience
+        const CRITICAL_FRAMES = 60; // Min frames needed to start the experience
+        let criticalReady = false;
 
-        const loadFrame = (i: number) => {
+        const loadFrame = (i: number): Promise<void> => {
             return new Promise<void>((resolve) => {
                 const img = new Image();
-                // Assumes we have a downsampled or smaller set of images
                 const paddedIndex = i.toString().padStart(5, "0");
                 img.src = `/sequence-1/${paddedIndex}.jpg`;
 
@@ -53,36 +53,44 @@ export default function HeroScroll() {
                     const progress = Math.round((loaded / TOTAL_FRAMES) * 100);
                     setLoadProgress(progress);
 
-                    if (loaded >= CRITICAL_FRAMES && !isLoaded) {
+                    if (!criticalReady && loaded >= CRITICAL_FRAMES) {
+                        criticalReady = true;
+                        setImages([...loadedImages]);
                         setIsLoaded(true);
+                    } else if (criticalReady && loaded % 50 === 0) {
+                        // Periodically sync the images array so new frames become available
+                        setImages([...loadedImages]);
                     }
                     resolve();
                 };
                 img.onerror = () => {
                     loaded++;
-                    const progress = Math.round((loaded / TOTAL_FRAMES) * 100);
-                    setLoadProgress(progress);
                     resolve();
                 };
             });
         };
 
-        // Load critical frames first
         const loadSequence = async () => {
-            // Priority 1: First 30
+            // Priority 1: Load first 60 frames sequentially for immediate start
             for (let i = 1; i <= CRITICAL_FRAMES; i++) {
                 await loadFrame(i);
             }
 
-            // Priority 2: Rest in chunks
-            for (let i = CRITICAL_FRAMES + 1; i <= TOTAL_FRAMES; i++) {
-                loadFrame(i); // Non-blocking lazy load
+            // Priority 2: Load remaining frames in parallel batches of 20
+            const BATCH_SIZE = 20;
+            for (let i = CRITICAL_FRAMES + 1; i <= TOTAL_FRAMES; i += BATCH_SIZE) {
+                const batch: Promise<void>[] = [];
+                for (let j = i; j < i + BATCH_SIZE && j <= TOTAL_FRAMES; j++) {
+                    batch.push(loadFrame(j));
+                }
+                await Promise.all(batch);
+                setImages([...loadedImages]);
             }
-            setImages(loadedImages);
         };
 
         loadSequence();
-    }, [isLoaded]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     // Draw initial frame and resize logic
     const resizeCanvas = useCallback(() => {
