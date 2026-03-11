@@ -206,4 +206,28 @@
   .animate-shimmer {
     animation: shimmer 3s infinite linear;
   }
+
+  .performance-gpu {
+    backface-visibility: hidden;
+    perspective: 1000px;
+    transform: translateZ(0);
+  }
+}
+
+section {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 5000px;
+  /* Placeholder size for better scrollbar stability */
+}
+
+#hero {
+  content-visibility: visible;
+  /* Ensure hero is always visible immediately */
+}
+
+canvas {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }

@@ -12,12 +12,12 @@ export default function SmoothScroll({
 
     useEffect(() => {
         const lenis = new Lenis({
-            duration: 1.4,
+            duration: 1.6,
             easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            lerp: 0.05,
+            wheelMultiplier: 1,
+            touchMultiplier: 2,
             smoothWheel: true,
-            wheelMultiplier: 0.9,
-            touchMultiplier: 1.5,
-            lerp: 0.08,
         });
 
         lenisRef.current = lenis;

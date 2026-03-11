@@ -13,16 +13,20 @@ export default function HeroScroll() {
     const [loadProgress, setLoadProgress] = useState(0);
     const [isLoaded, setIsLoaded] = useState(false);
     const currentFrameRef = useRef(0);
+    const drawParamsRef = useRef({ x: 0, y: 0, w: 0, h: 0 });
 
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end end"],
     });
 
+    // Smoother spring configuration
     const springProgress = useSpring(scrollYProgress, {
-        stiffness: 100,
-        damping: 30,
-        restDelta: 0.001,
+        stiffness: 30,
+        damping: 40,
+        mass: 0.4,
+        restDelta: 0.0001,
+        restSpeed: 0.0001,
     });
 
     // Text reveal based on scroll progress
@@ -39,6 +43,7 @@ export default function HeroScroll() {
         const CRITICAL_FRAMES = 30;
         let loaded = 0;
         let criticalReady = false;
+        let lastReportedProgress = 0;
 
         const loadFrame = (i: number): Promise<void> => {
             return new Promise<void>((resolve) => {
@@ -48,20 +53,28 @@ export default function HeroScroll() {
                 img.onload = () => {
                     loaded++;
                     imagesRef.current[i - 1] = img;
-                    setLoadProgress(Math.round((loaded / TOTAL_FRAMES) * 100));
+
+                    // Throttle loading progress updates to avoid too many re-renders
+                    const currentProgress = Math.round((loaded / TOTAL_FRAMES) * 100);
+                    if (currentProgress > lastReportedProgress) {
+                        lastReportedProgress = currentProgress;
+                        setLoadProgress(currentProgress);
+                    }
 
                     if (!criticalReady && loaded >= CRITICAL_FRAMES) {
                         criticalReady = true;
                         setIsLoaded(true);
                     }
-                    // Redraw current frame every time a new image loads
-                    // (covers the case where previously requested frame just arrived)
-                    if (criticalReady) {
+                    // Redraw current frame only if critical stuff is ready
+                    if (criticalReady && i - 1 === currentFrameRef.current) {
                         requestAnimationFrame(() => drawFrameDirect(currentFrameRef.current));
                     }
                     resolve();
                 };
-                img.onerror = () => { loaded++; resolve(); };
+                img.onerror = () => {
+                    loaded++;
+                    resolve();
+                };
             });
         };
 
@@ -70,12 +83,15 @@ export default function HeroScroll() {
             for (let i = 1; i <= CRITICAL_FRAMES; i++) {
                 await loadFrame(i);
             }
-            // Phase 2: fire ALL remaining frames simultaneously
-            const remaining: Promise<void>[] = [];
-            for (let i = CRITICAL_FRAMES + 1; i <= TOTAL_FRAMES; i++) {
-                remaining.push(loadFrame(i));
+            // Phase 2: fire remaining frames in parallel but in smaller batches to avoid overloading the network/memory
+            const BATCH_SIZE = 20;
+            for (let i = CRITICAL_FRAMES + 1; i <= TOTAL_FRAMES; i += BATCH_SIZE) {
+                const batch = [];
+                for (let j = 0; j < BATCH_SIZE && (i + j) <= TOTAL_FRAMES; j++) {
+                    batch.push(loadFrame(i + j));
+                }
+                await Promise.all(batch);
             }
-            await Promise.all(remaining);
         };
 
         loadSequence();
@@ -87,47 +103,68 @@ export default function HeroScroll() {
         const canvas = canvasRef.current;
         if (!canvas) return;
 
-        const dpr = window.devicePixelRatio || 1;
-        canvas.width = window.innerWidth * dpr;
-        canvas.height = window.innerHeight * dpr;
-        canvas.style.width = `${window.innerWidth}px`;
-        canvas.style.height = `${window.innerHeight}px`;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2); // Limit DPR to 2 for performance
+        const w = window.innerWidth;
+        const h = window.innerHeight;
 
-        const ctx = canvas.getContext("2d");
-        if (ctx) ctx.scale(dpr, dpr);
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        canvas.style.width = `${w}px`;
+        canvas.style.height = `${h}px`;
+
+        const ctx = canvas.getContext("2d", { alpha: false }); // Disable alpha for better performance
+        if (ctx) {
+            ctx.scale(dpr, dpr);
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = "high";
+        }
+
+        // Pre-calculate draw parameters
+        // We assume 16:9 for these sequence images usually, but let's use the first loaded image's ratio if available
+        const firstImg = imagesRef.current.find(img => img !== undefined);
+        const imgRatio = firstImg ? firstImg.naturalWidth / firstImg.naturalHeight : 16 / 9;
+        const canvasRatio = w / h;
+
+        let drawW: number, drawH: number, drawX: number, drawY: number;
+        if (imgRatio > canvasRatio) {
+            drawH = h; drawW = h * imgRatio;
+            drawX = (w - drawW) / 2; drawY = 0;
+        } else {
+            drawW = h * imgRatio; drawH = h; // Fallback or adjust as needed
+            // Corrected aspect fill logic
+            drawW = w; drawH = w / imgRatio;
+            drawX = 0; drawY = (h - drawH) / 2;
+        }
+        drawParamsRef.current = { x: drawX, y: drawY, w: drawW, h: drawH };
     }, []);
 
     // Direct draw using ref (no stale closure issue)
     const drawFrameDirect = useCallback((frameIndex: number) => {
         const canvas = canvasRef.current;
         if (!canvas) return;
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext("2d", { alpha: false });
         if (!ctx) return;
 
         // Find the requested frame or nearest loaded frame before it
         let img = imagesRef.current[frameIndex];
         if (!img) {
-            for (let i = frameIndex - 1; i >= 0; i--) {
-                if (imagesRef.current[i]) { img = imagesRef.current[i]; break; }
+            // Find nearest loaded frame within a small window
+            const windowSize = 20;
+            for (let i = 1; i < windowSize; i++) {
+                if (frameIndex - i >= 0 && imagesRef.current[frameIndex - i]) {
+                    img = imagesRef.current[frameIndex - i];
+                    break;
+                }
+                if (frameIndex + i < TOTAL_FRAMES && imagesRef.current[frameIndex + i]) {
+                    img = imagesRef.current[frameIndex + i];
+                    break;
+                }
             }
         }
         if (!img) return;
 
-        const canvasW = window.innerWidth;
-        const canvasH = window.innerHeight;
-        const imgRatio = img.naturalWidth / img.naturalHeight;
-        const canvasRatio = canvasW / canvasH;
-
-        let drawW: number, drawH: number, drawX: number, drawY: number;
-        if (imgRatio > canvasRatio) {
-            drawH = canvasH; drawW = canvasH * imgRatio;
-            drawX = (canvasW - drawW) / 2; drawY = 0;
-        } else {
-            drawW = canvasW; drawH = canvasW / imgRatio;
-            drawX = 0; drawY = (canvasH - drawH) / 2;
-        }
-        ctx.clearRect(0, 0, canvasW, canvasH);
-        ctx.drawImage(img, drawX, drawY, drawW, drawH);
+        const { x, y, w, h } = drawParamsRef.current;
+        ctx.drawImage(img, x, y, w, h);
     }, []);
 
     // Keep drawFrame alias for scroll handler
@@ -143,7 +180,6 @@ export default function HeroScroll() {
         if (!isLoaded) return;
 
         const unsubscribe = springProgress.on("change", (v) => {
-            // Speed up the frame sequence so it finishes at around v = 0.85
             const frameV = Math.min(1, v * 1.18);
             const frameIndex = Math.min(
                 TOTAL_FRAMES - 1,
