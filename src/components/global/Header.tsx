@@ -67,11 +67,11 @@ export default function Header() {
                                     whileHover={{ scale: 1.02 }}
                                     className="flex flex-col items-start"
                                 >
-                                    <span className={`font-serif text-2xl md:text-3xl tracking-wide transition-colors duration-500 ${isScrolled ? "text-foreground" : "text-white"}`}>
-                                        Royal Suits
+                                    <span className={`font-serif text-2xl md:text-3xl tracking-[0.1em] transition-colors duration-500 font-light ${isScrolled ? "text-foreground" : "text-white"}`}>
+                                        ROYAL SUITES
                                     </span>
-                                    <span className={`text-[8px] tracking-[0.4em] uppercase font-sans mt-0.5 transition-colors duration-500 ${isScrolled ? "text-turquoise" : "text-white/60"}`}>
-                                        Luxury Hotels & Resorts
+                                    <span className={`text-[9px] tracking-[0.5em] uppercase font-sans mt-1 transition-colors duration-500 leading-none ${isScrolled ? "text-turquoise font-medium" : "text-white/70"}`}>
+                                        Luxury Redefined
                                     </span>
                                 </motion.div>
                             </Link>
@@ -81,26 +81,28 @@ export default function Header() {
                                 {/* Modern Menu Toggle Button */}
                                 <button
                                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                                    className="relative z-[60] flex items-center gap-3 group"
+                                    className="relative z-[60] flex items-center gap-4 group bg-black/5 hover:bg-black/10 p-2 rounded-full transition-all duration-300"
                                     aria-label="Toggle Menu"
                                 >
                                     <span className={`hidden sm:block text-[10px] font-bold tracking-[0.3em] uppercase transition-colors duration-500 ${isMenuOpen ? "text-white" : (isScrolled ? "text-foreground" : "text-white")}`}>
-                                        {isMenuOpen ? "Close" : "Explore"}
+                                        {isMenuOpen ? "Close" : "Menu"}
                                     </span>
-                                    <div className="w-10 h-10 flex flex-col justify-center items-center gap-1.5 relative">
+                                    <div className="w-10 h-10 flex flex-col justify-center items-center gap-2 relative">
                                         <motion.span
                                             animate={{
                                                 rotate: isMenuOpen ? 45 : 0,
-                                                y: isMenuOpen ? 4.5 : 0,
+                                                y: isMenuOpen ? 5 : 0,
+                                                width: isMenuOpen ? "24px" : "28px"
                                             }}
-                                            className={`block w-6 h-[1px] transition-colors duration-500 ${isMenuOpen ? "bg-white" : (isScrolled ? "bg-foreground" : "bg-white")}`}
+                                            className={`block h-[1.5px] transition-colors duration-500 ${isMenuOpen ? "bg-white" : (isScrolled ? "bg-foreground" : "bg-white")}`}
                                         />
                                         <motion.span
                                             animate={{
                                                 rotate: isMenuOpen ? -45 : 0,
-                                                y: isMenuOpen ? -4.5 : 0,
+                                                y: isMenuOpen ? -5 : 0,
+                                                width: isMenuOpen ? "24px" : "20px"
                                             }}
-                                            className={`block w-6 h-[1px] transition-colors duration-500 ${isMenuOpen ? "bg-white" : (isScrolled ? "bg-foreground" : "bg-white")}`}
+                                            className={`block h-[1.5px] transition-colors duration-500 ml-auto ${isMenuOpen ? "bg-white" : (isScrolled ? "bg-foreground" : "bg-white")}`}
                                         />
                                     </div>
                                 </button>
