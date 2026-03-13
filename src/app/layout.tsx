@@ -23,6 +23,19 @@ export const metadata: Metadata = {
   description:
     "Experience unparalleled luxury at PRS Hotel. Premium destinations, world-class amenities, and bespoke hospitality that transcends expectations.",
   keywords: "luxury hotel, premium resort, five star hotel, PRS Hotel, boutique hotel",
+  openGraph: {
+    title: "PS HOTEL | Luxury Redefined",
+    description: "Experience unparalleled luxury at PRS Hotel. Premium destinations, world-class amenities, and bespoke hospitality.",
+    url: "https://ps-hotel.vercel.app",
+    siteName: "PS HOTEL",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PS HOTEL | Luxury Redefined",
+    description: "Experience unparalleled luxury at PRS Hotel.",
+  },
 };
 
 export default function RootLayout({
