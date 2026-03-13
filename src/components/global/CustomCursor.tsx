@@ -69,21 +69,27 @@ export default function CustomCursor() {
 
                     {/* Outer Ring - Smooth following */}
                     <motion.div
-                        className="fixed top-0 left-0 rounded-full border border-white/40 z-[9999] pointer-events-none mix-blend-difference"
+                        className="fixed top-0 left-0 rounded-full border border-turquoise/40 z-[9999] pointer-events-none mix-blend-difference selection:bg-transparent"
                         style={{
                             x: ringX,
                             y: ringY,
                             translateX: "-50%",
                             translateY: "-50%",
-                            width: isHovering ? 60 : 36,
-                            height: isHovering ? 60 : 36,
+                            width: isHovering ? 80 : 40,
+                            height: isHovering ? 80 : 40,
                         }}
                         animate={{
-                            scale: isHovering ? 1.2 : 1,
-                            borderColor: isHovering ? "rgba(209, 160, 112, 1)" : "rgba(255, 255, 255, 0.4)",
-                            backgroundColor: isHovering ? "rgba(209, 160, 112, 0.1)" : "rgba(255, 255, 255, 0)",
+                            scale: isHovering ? 1.5 : 1,
+                            borderColor: isHovering ? "rgba(209, 160, 112, 0.8)" : "rgba(31, 180, 180, 0.4)",
+                            backgroundColor: isHovering ? "rgba(209, 160, 112, 0.15)" : "rgba(255, 255, 255, 0)",
+                            borderWidth: isHovering ? "2px" : "1px",
                         }}
-                        transition={{ duration: 0.3 }}
+                        transition={{ 
+                            type: "spring",
+                            stiffness: 150,
+                            damping: 25,
+                            mass: 0.1
+                        }}
                     />
                 </>
             )}
