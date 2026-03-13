@@ -32,29 +32,29 @@ export default function Footer() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
                         {/* Brand */}
                         <div className="lg:col-span-2">
-                            <Link href="/" className="block mb-6">
-                                <span className="font-serif text-3xl tracking-cinematic text-white">
-                                    PRS HOTEL
+                            <Link href="/" className="block mb-8">
+                                <span className="font-serif text-3xl tracking-[0.2em] text-white">
+                                    ROYAL SUITES
                                 </span>
-                                <span className="block text-[9px] tracking-ultra uppercase text-turquoise mt-1">
-                                    Luxury Redefined
+                                <span className="block text-[10px] tracking-[0.6em] uppercase text-turquoise mt-2">
+                                    Luxury Regained
                                 </span>
                             </Link>
-                            <p className="text-white/30 text-sm leading-relaxed max-w-sm mb-8">
+                            <p className="text-white/40 text-sm leading-relaxed max-w-sm mb-10 font-light">
                                 Experience unparalleled luxury across our global collection
-                                of properties. Where every moment is a masterpiece of hospitality.
+                                of properties. A legacy of hospitality since 1985.
                             </p>
 
                             {/* Social links */}
-                            <div className="flex gap-4">
+                            <div className="flex gap-6">
                                 {["Instagram", "Twitter", "LinkedIn", "Facebook"].map((social) => (
                                     <motion.a
                                         key={social}
                                         href="#"
-                                        whileHover={{ y: -3, borderColor: "#1FB4B4" }}
-                                        className="w-10 h-10 border border-white/10 flex items-center justify-center text-white/40 hover:text-turquoise transition-colors duration-300 text-xs"
+                                        whileHover={{ y: -5, opacity: 1 }}
+                                        className="text-white/30 hover:text-turquoise transition-all duration-300 text-[10px] tracking-widest uppercase"
                                     >
-                                        {social[0]}
+                                        {social}
                                     </motion.a>
                                 ))}
                             </div>
@@ -87,8 +87,8 @@ export default function Footer() {
             {/* Bottom bar */}
             <div className="border-t border-white/5 px-6 md:px-12 lg:px-24 py-6">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-                    <p className="text-white/20 text-xs tracking-wider">
-                        © 2025 PRS Hotel Company. All rights reserved.
+                    <p className="text-white/20 text-[10px] tracking-[0.2em] uppercase">
+                        © 2026 ROYAL SUITES & RESORTS. ALL RIGHTS RESERVED.
                     </p>
                     <div className="flex flex-col sm:flex-row items-center gap-4 mt-4 md:mt-0">
                         <div className="bg-gold/10 text-gold px-4 py-2 rounded-none flex items-center justify-center gap-2 border border-gold/30">
