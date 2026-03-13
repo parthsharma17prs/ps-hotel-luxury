@@ -114,11 +114,11 @@ export default function Accommodations() {
                                         </div>
                                     </div>
                                     <motion.button
-                                        whileHover={{ scale: 1.05 }}
+                                        whileHover={{ backgroundColor: "#1FB4B4", scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
-                                        className="text-[10px] font-bold tracking-widest uppercase text-white bg-foreground px-4 py-2 hover:bg-turquoise transition-colors duration-300"
+                                        className="text-[10px] font-bold tracking-[0.3em] uppercase text-white bg-foreground px-6 py-3 transition-all duration-500 ease-out"
                                     >
-                                        Book Now
+                                        Explore
                                     </motion.button>
                                 </div>
                             </div>
