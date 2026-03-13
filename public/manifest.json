@@ -1,0 +1,16 @@
+{
+  "name": "ROYAL SUITES & RESORTS",
+  "short_name": "RoyalSuites",
+  "description": "Luxury Redefined. Experience unparalleled hospitality.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1FB4B4",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}
